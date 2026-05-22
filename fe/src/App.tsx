@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const steps = [
   { image: "/webtoor/1page.png", text: "구글 플레이 스토어를 클릭하세요" },
@@ -34,6 +34,14 @@ export default function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentStep = steps[currentIndex];
 
+  // 이미지 미리 로딩
+  useEffect(() => {
+    steps.forEach((step) => {
+      const img = new Image();
+      img.src = step.image;
+    });
+  }, []);
+
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? steps.length - 1 : prev - 1));
   };
@@ -45,7 +53,6 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#f3f0df] flex items-center justify-center px-4 py-6">
       <div className="w-full max-w-7xl flex items-center justify-center gap-3 sm:gap-6">
-        {/* 이전 버튼 */}
         <button
           onClick={handlePrev}
           className="shrink-0 w-11 h-11 sm:w-16 sm:h-16 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 active:scale-95 transition"
@@ -64,10 +71,8 @@ export default function App() {
           </svg>
         </button>
 
-        {/* 메인 카드 */}
         <div className="w-full bg-white rounded-[32px] shadow-2xl overflow-hidden border border-gray-200">
           <div className="grid grid-cols-1 md:grid-cols-2 min-h-[620px]">
-            {/* 왼쪽 사진 영역 */}
             <div className="bg-gray-50 flex items-center justify-center p-4 sm:p-8">
               <img
                 src={currentStep.image}
@@ -76,9 +81,7 @@ export default function App() {
               />
             </div>
 
-            {/* 오른쪽 설명 영역 */}
             <div className="relative flex flex-col justify-center px-6 py-10 sm:px-10 md:px-14 bg-white">
-              {/* 단계 번호 */}
               <div className="absolute top-6 right-6 bg-blue-600 text-white rounded-full px-5 py-2 text-lg sm:text-xl font-bold shadow-md">
                 {currentIndex + 1} / {steps.length}
               </div>
@@ -104,7 +107,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* 다음 버튼 */}
         <button
           onClick={handleNext}
           className="shrink-0 w-11 h-11 sm:w-16 sm:h-16 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 active:scale-95 transition"
